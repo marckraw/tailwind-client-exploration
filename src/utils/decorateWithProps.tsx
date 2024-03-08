@@ -1,28 +1,33 @@
-import { FC, FunctionComponent } from "react";
+import { FC, ReactElement } from "react";
 
-export function decorateWithProps({
+interface DecorateWithPropsOptions<V> {
+  Component: V;
+  props?: { [key: string]: any | ((originalValue: any) => any) };
+}
+export function decorateWithProps<V extends ReactElement>({
   Component,
   props,
-  callback,
-}: {
-  Component: any;
-  props?: any;
-  callback?: (Component: any, props: any) => any;
-}) {
+}: DecorateWithPropsOptions<V>): V | undefined {
   if (!Component) {
     return undefined;
   }
 
-  if (callback) {
-    // callback with props, so can create own overwrite ?
-    return callback(Component, props); // should return
-  } else {
-    return {
-      ...Component,
-      props: {
-        ...Component.props,
-        ...props,
-      },
-    };
-  }
+  const newProps = Object.keys(props || {}).reduce(
+    (acc: { [key: string]: any }, key) => {
+      const originalValue = Component.props[key];
+      const propValue = props![key]; // We've already checked that props is not undefined
+      const newValue =
+        typeof propValue === "function" ? propValue(originalValue) : propValue;
+      acc[key] = newValue;
+      return acc;
+    },
+    {},
+  );
+  return {
+    ...Component,
+    props: {
+      ...Component.props,
+      ...newProps,
+    },
+  };
 }

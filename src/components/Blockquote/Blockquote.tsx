@@ -1,36 +1,41 @@
-import type { HTMLAttributes } from "react";
+"use client";
+import { HTMLAttributes, ReactElement, useEffect } from "react";
 import React, { forwardRef } from "react";
 import { clsx } from "clsx";
-import type { TV } from "tailwind-variants";
 import { tv } from "tailwind-variants";
 
-import { WithTVAProps } from "../../../tva.types";
-import { config } from "../../../backpack.config";
-import { theStyles } from "@/components/Blockquote/blockquote.styles";
+import { DeepPartial } from "@/helpers.tva.types";
+import { blockquoteStyles } from "@/components/Blockquote/blockquote.styles";
 import { useSlots } from "slot-me-in";
+import { BlockquoteCitation as BlockquoteCitationComponent } from "@/components/Blockquote/BlockquoteCitation";
+import {
+  ExtractSpecificStyles,
+  WithStyleDefinition,
+} from "@/helpers.tva.types";
+import { deepMerge } from "@/helpers.tva";
+import { BlockquoteText as BlockquoteTextComponent } from "./BlockquoteText";
+import { BlockquoteFooter as BlockquoteFooterComponent } from "./BlockquoteFooter";
 import { decorateWithProps } from "@/utils/decorateWithProps";
 
-// Use the Parameters utility type to extract arguments
-type FunctionParameters = Parameters<TV>;
-type FirstParameterType = FunctionParameters[0];
-
+type BlockquoteRootStyles = ExtractSpecificStyles<
+  typeof blockquoteStyles,
+  ["root", "text", "footer", "citation"]
+>;
 interface BlockquoteProps
   extends HTMLAttributes<HTMLQuoteElement>,
-    WithTVAProps<Partial<typeof theStyles>> {
+    WithStyleDefinition<DeepPartial<BlockquoteRootStyles>> {
   /**
    * Applies an inverse theme to the component
    * @default false
    */
   inverse?: boolean;
+  variant?: "default" | "primary" | "secondary";
 }
 
-const defaultProps: BlockquoteProps = {
-  inverse: false,
-};
-
 type Slots = {
-  BlockquoteText: any;
-  BlockquoteFooter: any;
+  BlockquoteText: ReactElement<typeof BlockquoteTextComponent>;
+  BlockquoteCitation: ReactElement<typeof BlockquoteCitationComponent>;
+  BlockquoteFooter: ReactElement<typeof BlockquoteFooterComponent>;
 };
 
 /**
@@ -38,42 +43,49 @@ type Slots = {
  */
 const Blockquote = forwardRef<HTMLQuoteElement, BlockquoteProps>(
   (props, forwardedRef) => {
-    const { children, className = false, tvaProps, inverse, ...rest } = props;
-
+    const {
+      children,
+      className = "",
+      styleDefinition,
+      inverse,
+      variant = "default",
+      ...rest
+    } = props;
     const { BlockquoteText, BlockquoteFooter } = useSlots<Slots>(children);
 
-    console.log(BlockquoteText);
-    console.log(BlockquoteFooter);
-
-    const blockquoteStyles = tv(theStyles, {
-      responsiveVariants: config.tvConfig?.responsiveVariants ?? false,
-    });
-    const { root, footer, text, citation } = blockquoteStyles({ inverse });
-
+    const styles = tv(
+      styleDefinition
+        ? deepMerge(blockquoteStyles, styleDefinition)
+        : blockquoteStyles,
+      {
+        responsiveVariants: false,
+      },
+    );
+    const { text, root, footer, citation } = styles({ inverse, variant });
     const classes = clsx("ef-blockquote", root(), className || "");
+
+    const DecoratedBlockquoteText = decorateWithProps({
+      Component: BlockquoteText,
+      props: {
+        className: (initValue: string) => clsx(text(), initValue),
+        inverse: (initValue: boolean) =>
+          typeof initValue !== "undefined" ? initValue : inverse,
+      },
+    });
+    const DecoratedBlockquoteFooter = decorateWithProps({
+      Component: BlockquoteFooter,
+      props: {
+        className: (initValue: string) => clsx(footer(), initValue),
+        classNameCitation: citation(),
+        inverse: (initValue: boolean) =>
+          typeof initValue !== "undefined" ? initValue : inverse,
+      },
+    });
 
     return (
       <blockquote ref={forwardedRef} className={classes} {...rest}>
-        {decorateWithProps({
-          Component: BlockquoteText,
-          props: {
-            inverse,
-            className: text(), // this overwrites className completely
-          },
-        })}
-        {decorateWithProps({
-          Component: BlockquoteFooter,
-          callback: (Component, props) => ({
-            ...Component,
-            props: {
-              ...Component.props,
-              ...props,
-              inverse,
-              // this custom callback doesnt not overwrite, but combine classes that user provided with our classes
-              className: `${Component.props.className} ${footer()}`,
-            },
-          }),
-        })}
+        {DecoratedBlockquoteText}
+        {DecoratedBlockquoteFooter}
       </blockquote>
     );
   },

@@ -1,10 +1,17 @@
+"use client";
 import type { FC, HTMLAttributes } from "react";
 import React from "react";
 import { clsx } from "clsx";
+export interface BlockquoteTextProps extends HTMLAttributes<unknown> {
+  inverse?: boolean;
+}
 
-export type BlockquoteTextProps = HTMLAttributes<unknown>;
+const BlockquoteText: FC<BlockquoteTextProps> = (props) => {
+  const { children, className, inverse } = props;
 
-const BlockquoteText: FC<BlockquoteTextProps> = ({ children, className }) => {
+  console.log("Inverse from BlockquoteText: ");
+  console.log({ inverse });
+
   const classes = clsx(className || "");
 
   return <p className={classes}>{children}</p>;
