@@ -2256,6 +2256,11 @@ slash@^3.0.0:
   resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
   integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
 
+slot-me-in@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/slot-me-in/-/slot-me-in-0.2.0.tgz#bcbc5f72f470d50ee0812f1be220b2f7308d499e"
+  integrity sha512-b8yGZDA1BZBB4q45iOHl9AUIsYtLtsUVhVA9AKnIz+lVTlWZCJmzFb0r6xfOXJ41EyMnpvZa6JHzGDtihSUJIw==
+
 source-map-js@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.0.2.tgz#adbc361d9c62df380125e7f161f71c826f1e490c"

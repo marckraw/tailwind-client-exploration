@@ -1,6 +1,9 @@
 import clsx from "clsx";
 import { Button } from "@/components/Button/button";
 import { BlockquoteCitation } from "@/components/Blockquote/BlockquoteCitation";
+import { Blockquote } from "@/components/Blockquote/Blockquote";
+import { BlockquoteText } from "@/components/Blockquote/BlockquoteText";
+import { BlockquoteFooter } from "@/components/Blockquote/BlockquoteFooter";
 
 export default function Home() {
   const color = "red";
@@ -8,50 +11,18 @@ export default function Home() {
     <main>
       <div className={clsx("m-10 border-4 border-gray-950 p-12 text-white")}>
         <div className={"flex flex-col gap-6"}>
-          <div>
-            <Button>Clean Button (default to primary)</Button>
-          </div>
-          <div>
-            <Button variant={"primary"}>Clean primary Button</Button>
-          </div>
-          <div>
-            <Button variant={"secondary"}>Clean secondary Button</Button>
-          </div>
-          <div>
-            <Button
-              className={"text-pink-500 hover:bg-blue-600 hover:bg-pink-950"}
-            >
-              Button with passed classNames
-            </Button>
-          </div>
-          <div>
-            <Button
-              tvaProps={{
-                slots: { root: "bg-pink-950 p-8 m-32" },
-              }}
-            >
-              TVAProps Button
-            </Button>
-          </div>
-          <div>
-            <Button
-              variant={"secondary"}
-              tvaProps={{
-                slots: {
-                  root: "bg-pink-950 p-8 m-32 hover:bg-pink-700 hover:text-gray-200",
-                },
-                variants: {
-                  variant: {
-                    secondary: {
-                      root: "text-5xl",
-                    },
-                  },
-                },
-              }}
-            >
-              TVAProps Button
-            </Button>
-          </div>
+          <Blockquote className={"ToJestWrapper"}>
+            <BlockquoteText className={"zoledzie"}>
+              "Cras mattis consectetur purus sit amet fermentum. Etiam porta sem
+              malesuada magna mollis euismod. Lorem ipsum dolor sit amet,
+              consectetur adipiscing elit"
+            </BlockquoteText>
+            <BlockquoteFooter className={"Dupsko"}>
+              <BlockquoteCitation className={"CitationKurwa"}>
+                Albert Einstein
+              </BlockquoteCitation>
+            </BlockquoteFooter>
+          </Blockquote>
         </div>
       </div>
     </main>

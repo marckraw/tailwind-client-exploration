@@ -1,23 +1,22 @@
 import type { FC, HTMLAttributes } from "react";
 import React from "react";
 import { clsx } from "clsx";
-import { tv } from "tailwind-variants";
-import { config } from "../../../backpack.config";
-import { theStyles } from "@/components/Blockquote/blockquote.styles";
+import { useSlots } from "slot-me-in";
 
 export type BlockquoteFooterProps = HTMLAttributes<unknown>;
+
+type Slots = {
+  BlockquoteCitation: any;
+};
 
 const BlockquoteFooter: FC<BlockquoteFooterProps> = ({
   children,
   className,
 }) => {
-  const blockquoteStyles = tv(theStyles, {
-    responsiveVariants: config.tvConfig?.responsiveVariants ?? false,
-  });
-  const { footer } = blockquoteStyles();
-  const classes = clsx(footer(), className || "");
+  const { BlockquoteCitation } = useSlots<Slots>(children);
+  const classes = clsx(className || "");
 
-  return <footer className={classes}>{children}</footer>;
+  return <footer className={classes}>{BlockquoteCitation}</footer>;
 };
 
 BlockquoteFooter.displayName = "BlockquoteFooter";
