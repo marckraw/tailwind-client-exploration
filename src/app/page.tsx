@@ -1,58 +1,115 @@
+"use client";
 import clsx from "clsx";
-import { Button } from "@/components/Button/button";
 import { BlockquoteCitation } from "@/components/Blockquote/BlockquoteCitation";
+import { Blockquote } from "@/components/Blockquote/Blockquote";
+import { BlockquoteText } from "@/components/Blockquote/BlockquoteText";
+import { BlockquoteFooter } from "@/components/Blockquote/BlockquoteFooter";
 
 export default function Home() {
-  const color = "red";
   return (
     <main>
-      <div className={clsx("m-10 border-4 border-gray-950 p-12 text-white")}>
-        <div className={"flex flex-col gap-6"}>
-          <div>
-            <Button>Clean Button (default to primary)</Button>
-          </div>
-          <div>
-            <Button variant={"primary"}>Clean primary Button</Button>
-          </div>
-          <div>
-            <Button variant={"secondary"}>Clean secondary Button</Button>
-          </div>
-          <div>
-            <Button
-              className={"text-pink-500 hover:bg-blue-600 hover:bg-pink-950"}
-            >
-              Button with passed classNames
-            </Button>
-          </div>
-          <div>
-            <Button
-              tvaProps={{
-                slots: { root: "bg-pink-950 p-8 m-32" },
-              }}
-            >
-              TVAProps Button
-            </Button>
-          </div>
-          <div>
-            <Button
-              variant={"secondary"}
-              tvaProps={{
-                slots: {
-                  root: "bg-pink-950 p-8 m-32 hover:bg-pink-700 hover:text-gray-200",
-                },
-                variants: {
-                  variant: {
-                    secondary: {
-                      root: "text-5xl",
-                    },
-                  },
-                },
-              }}
-            >
-              TVAProps Button
-            </Button>
-          </div>
-        </div>
+      <div className={clsx("m-10")}>
+        <h2>Default</h2>
+        <Blockquote>
+          <BlockquoteText id={"my_id"}>
+            "Cras mattis consectetur purus sit amet fermentum. Etiam porta sem
+            malesuada magna mollis euismod. Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit"
+          </BlockquoteText>
+          <BlockquoteFooter>
+            <BlockquoteCitation>Albert Einstein</BlockquoteCitation>
+          </BlockquoteFooter>
+        </Blockquote>
+      </div>
+      <div className={clsx("m-10")}>
+        <h2>Default - Inverse</h2>
+        <Blockquote inverse={true}>
+          <BlockquoteText>
+            "Cras mattis consectetur purus sit amet fermentum. Etiam porta sem
+            malesuada magna mollis euismod. Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit"
+          </BlockquoteText>
+          <BlockquoteFooter>
+            <BlockquoteCitation>Albert Einstein</BlockquoteCitation>
+          </BlockquoteFooter>
+        </Blockquote>
+      </div>
+      <div className={clsx("m-10")}>
+        <h2>Primary</h2>
+        <Blockquote variant={"primary"}>
+          <BlockquoteText>
+            "Cras mattis consectetur purus sit amet fermentum. Etiam porta sem
+            malesuada magna mollis euismod. Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit"
+          </BlockquoteText>
+          <BlockquoteFooter>
+            <BlockquoteCitation>Albert Einstein</BlockquoteCitation>
+          </BlockquoteFooter>
+        </Blockquote>
+      </div>
+      <div className={clsx("m-10")}>
+        <h2>Primary, Inverse</h2>
+        <Blockquote variant={"primary"} inverse={true}>
+          <BlockquoteText>
+            "Cras mattis consectetur purus sit amet fermentum. Etiam porta sem
+            malesuada magna mollis euismod. Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit"
+          </BlockquoteText>
+          <BlockquoteFooter>
+            <BlockquoteCitation>Albert Einstein</BlockquoteCitation>
+          </BlockquoteFooter>
+        </Blockquote>
+      </div>
+      <div className={clsx("m-10")}>
+        <h2>Secondary</h2>
+        <Blockquote variant={"secondary"}>
+          <BlockquoteText>
+            "Cras mattis consectetur purus sit amet fermentum. Etiam porta sem
+            malesuada magna mollis euismod. Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit"
+          </BlockquoteText>
+          <BlockquoteFooter>
+            <BlockquoteCitation>Albert Einstein</BlockquoteCitation>
+          </BlockquoteFooter>
+        </Blockquote>
+      </div>
+      <div className={clsx("m-10")}>
+        <h2>Secondary, Inverse</h2>
+        <Blockquote variant={"secondary"} inverse={true}>
+          <BlockquoteText>
+            "Cras mattis consectetur purus sit amet fermentum. Etiam porta sem
+            malesuada magna mollis euismod. Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit"
+          </BlockquoteText>
+          <BlockquoteFooter>
+            <BlockquoteCitation>Albert Einstein</BlockquoteCitation>
+          </BlockquoteFooter>
+        </Blockquote>
+      </div>
+      <div className={clsx("m-10")}>
+        <h2>Secondary with overwrites for secondary variant footer </h2>
+        <Blockquote
+          variant={"primary"}
+          inverse={true}
+          className={"blockquote_wrapper-od-consumera"}
+          styleDefinition={{
+            slots: {
+              footer: "rounded-full bg-pink-600 p-6",
+              citation: "bg-pink-400",
+            },
+          }}
+        >
+          <BlockquoteText className={"blockquote_text-od-consumera"}>
+            "Cras mattis consectetur purus sit amet fermentum. Etiam porta sem
+            malesuada magna mollis euismod. Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit"
+          </BlockquoteText>
+          <BlockquoteFooter className={"blockquote_footer-od-consumera"}>
+            <BlockquoteCitation className={"blockquote_citation-od-consumera"}>
+              Albert Einstein
+            </BlockquoteCitation>
+          </BlockquoteFooter>
+        </Blockquote>
       </div>
     </main>
   );

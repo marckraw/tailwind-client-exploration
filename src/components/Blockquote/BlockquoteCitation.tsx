@@ -1,24 +1,21 @@
+"use client";
 import type { FC, HTMLAttributes } from "react";
 import React from "react";
 import { clsx } from "clsx";
-import { tv } from "tailwind-variants";
-import { theStyles } from "@/components/Blockquote/blockquote.styles";
-import { config } from "../../../backpack.config";
 
-export type BlockquoteCitationProps = HTMLAttributes<unknown>;
+export interface BlockquoteCitationProps extends HTMLAttributes<unknown> {
+  inverse?: boolean;
+}
 
 /**
  * This is BlockquoteCitation, Blockquote subcomponent
  */
-const BlockquoteCitation: FC<BlockquoteCitationProps> = ({
-  children,
-  className,
-}) => {
-  const blockquoteStyles = tv(theStyles, {
-    responsiveVariants: config.tvConfig?.responsiveVariants ?? false,
-  });
-  const { citation } = blockquoteStyles();
-  const classes = clsx(citation(), className || "");
+const BlockquoteCitation: FC<BlockquoteCitationProps> = (props) => {
+  const { children, className, inverse } = props;
+  const classes = clsx(className || "");
+
+  console.log("Inverse from BlockquoteCitation: ");
+  console.log({ inverse });
 
   return <cite className={classes}>{children}</cite>;
 };

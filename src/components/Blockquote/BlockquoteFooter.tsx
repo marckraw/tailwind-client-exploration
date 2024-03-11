@@ -1,23 +1,37 @@
+"use client";
 import type { FC, HTMLAttributes } from "react";
 import React from "react";
 import { clsx } from "clsx";
-import { tv } from "tailwind-variants";
-import { config } from "../../../backpack.config";
-import { theStyles } from "@/components/Blockquote/blockquote.styles";
+import { useSlots } from "slot-me-in";
+import { decorateWithProps } from "@/utils/decorateWithProps";
 
-export type BlockquoteFooterProps = HTMLAttributes<unknown>;
+export interface BlockquoteFooterProps extends HTMLAttributes<unknown> {
+  inverse?: boolean;
+  classNameCitation?: string;
+}
 
-const BlockquoteFooter: FC<BlockquoteFooterProps> = ({
-  children,
-  className,
-}) => {
-  const blockquoteStyles = tv(theStyles, {
-    responsiveVariants: config.tvConfig?.responsiveVariants ?? false,
+type Slots = {
+  BlockquoteCitation: any;
+};
+
+const BlockquoteFooter: FC<BlockquoteFooterProps> = (props) => {
+  const { children, className, classNameCitation, inverse } = props;
+  const { BlockquoteCitation } = useSlots<Slots>(children);
+  const classes = clsx(className || "");
+
+  console.log("Inverse from BlockquoteFooter: ");
+  console.log({ inverse });
+
+  const DecoratedBlockquoteCitation = decorateWithProps({
+    Component: BlockquoteCitation,
+    props: {
+      inverse: (value: boolean) =>
+        typeof value !== "undefined" ? value : inverse,
+      className: (value: string) => clsx(classNameCitation, value),
+    },
   });
-  const { footer } = blockquoteStyles();
-  const classes = clsx(footer(), className || "");
 
-  return <footer className={classes}>{children}</footer>;
+  return <footer className={classes}>{DecoratedBlockquoteCitation}</footer>;
 };
 
 BlockquoteFooter.displayName = "BlockquoteFooter";

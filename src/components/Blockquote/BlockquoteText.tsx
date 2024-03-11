@@ -1,20 +1,24 @@
+"use client";
 import type { FC, HTMLAttributes } from "react";
 import React from "react";
 import { clsx } from "clsx";
-import { tv } from "tailwind-variants";
-import { config } from "../../../backpack.config";
-import { theStyles } from "@/components/Blockquote/blockquote.styles";
+export interface BlockquoteTextProps extends HTMLAttributes<unknown> {
+  inverse?: boolean;
+}
 
-export type BlockquoteTextProps = HTMLAttributes<unknown>;
+const BlockquoteText: FC<BlockquoteTextProps> = (props) => {
+  const { children, className, inverse, ...rest } = props;
 
-const BlockquoteText: FC<BlockquoteTextProps> = ({ children, className }) => {
-  const blockquoteStyles = tv(theStyles, {
-    responsiveVariants: config.tvConfig?.responsiveVariants ?? false,
-  });
-  const { text } = blockquoteStyles();
-  const classes = clsx(text(), className || "");
+  console.log("Inverse from BlockquoteText: ");
+  console.log({ inverse });
 
-  return <p className={classes}>{children}</p>;
+  const classes = clsx(className || "");
+
+  return (
+    <p className={classes} {...rest}>
+      {children}
+    </p>
+  );
 };
 
 BlockquoteText.displayName = "BlockquoteText";
