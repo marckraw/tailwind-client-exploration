@@ -1,6 +1,6 @@
-import { backpackTVA } from "@/helpers.tva";
+import { themeConfig } from "@/helpers.tva";
 
-export const blockquoteStyles = backpackTVA({
+export const blockquoteStyles = themeConfig({
   slots: {
     root: "md:m-24 m-0 ps-[--spacing-spacing-m] border-s-4 border-solid", // wrapper of the blockquote
     text: "font-light text-2xl italic md:text-3xl", // main text

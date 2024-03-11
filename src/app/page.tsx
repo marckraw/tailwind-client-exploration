@@ -92,7 +92,7 @@ export default function Home() {
           variant={"primary"}
           inverse={true}
           className={"blockquote_wrapper-od-consumera"}
-          styleDefinition={{
+          themeConfig={{
             slots: {
               footer: "rounded-full bg-pink-600 p-6",
               citation: "bg-pink-400",

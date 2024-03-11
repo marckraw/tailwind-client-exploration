@@ -1,15 +1,15 @@
 // Use the Parameters utility type to extract arguments
-import type { TV } from 'tailwind-variants';
+import type { TV } from "tailwind-variants";
 
 export type FunctionParameters = Parameters<TV>;
 export type FirstParameterType = FunctionParameters[0];
 
-export interface WithStyleDefinition<T> {
+export interface WithThemeConfig<T> {
   /**
    * TVA Props
    * @default undefined
    */
-  styleDefinition?: T extends FirstParameterType ? T : FirstParameterType;
+  themeConfig?: T extends FirstParameterType ? T : FirstParameterType;
 }
 
 export type DeepPartial<T> = {
@@ -44,6 +44,6 @@ export type ExtractSpecificStyles<
   T extends { slots: any; variants: any },
   K extends ReadonlyArray<keyof any> | keyof any,
 > = {
-  slots: PickSlots<T['slots'], K>;
-  variants: HandleVariants<T['variants'], K>;
+  slots: PickSlots<T["slots"], K>;
+  variants: HandleVariants<T["variants"], K>;
 };

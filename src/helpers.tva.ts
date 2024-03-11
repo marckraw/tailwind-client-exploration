@@ -1,6 +1,6 @@
 import type { DeepPartial } from "./helpers.tva.types";
 
-export const backpackTVA = <T>(object: T) => object;
+export const themeConfig = <T>(object: T) => object;
 
 export const deepMerge = <T>(target: T, source: any): T => {
   const output = { ...target };

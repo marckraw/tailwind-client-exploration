@@ -8,10 +8,7 @@ import { DeepPartial } from "@/helpers.tva.types";
 import { blockquoteStyles } from "@/components/Blockquote/blockquote.styles";
 import { useSlots } from "slot-me-in";
 import { BlockquoteCitation as BlockquoteCitationComponent } from "@/components/Blockquote/BlockquoteCitation";
-import {
-  ExtractSpecificStyles,
-  WithStyleDefinition,
-} from "@/helpers.tva.types";
+import { ExtractSpecificStyles, WithThemeConfig } from "@/helpers.tva.types";
 import { deepMerge } from "@/helpers.tva";
 import { BlockquoteText as BlockquoteTextComponent } from "./BlockquoteText";
 import { BlockquoteFooter as BlockquoteFooterComponent } from "./BlockquoteFooter";
@@ -29,18 +26,13 @@ type Slots = {
 };
 interface BlockquoteProps
   extends HTMLAttributes<HTMLQuoteElement>,
-    WithStyleDefinition<DeepPartial<BlockquoteRootStyles>> {
+    WithThemeConfig<DeepPartial<BlockquoteRootStyles>> {
   /**
    * Applies an inverse theme to the component
    * @default false
    */
   inverse?: boolean;
   variant?: "default" | "primary" | "secondary";
-  children: [
-    Slots["BlockquoteCitation"],
-    Slots["BlockquoteText"],
-    Slots["BlockquoteFooter"],
-  ];
 }
 
 /**
@@ -51,7 +43,7 @@ const Blockquote = forwardRef<HTMLQuoteElement, BlockquoteProps>(
     const {
       children,
       className = "",
-      styleDefinition,
+      themeConfig,
       inverse,
       variant = "default",
       ...rest
@@ -59,9 +51,7 @@ const Blockquote = forwardRef<HTMLQuoteElement, BlockquoteProps>(
     const { BlockquoteText, BlockquoteFooter } = useSlots<Slots>(children);
 
     const styles = tv(
-      styleDefinition
-        ? deepMerge(blockquoteStyles, styleDefinition)
-        : blockquoteStyles,
+      themeConfig ? deepMerge(blockquoteStyles, themeConfig) : blockquoteStyles,
       {
         responsiveVariants: false,
       },
@@ -72,7 +62,6 @@ const Blockquote = forwardRef<HTMLQuoteElement, BlockquoteProps>(
     const DecoratedBlockquoteText = decorateWithProps({
       Component: BlockquoteText,
       props: {
-        id: `_backpack`,
         className: (initValue: string) => clsx(text(), initValue),
         inverse: (initValue: boolean) =>
           typeof initValue !== "undefined" ? initValue : inverse,
