@@ -7,14 +7,18 @@ export interface BlockquoteTextProps extends HTMLAttributes<unknown> {
 }
 
 const BlockquoteText: FC<BlockquoteTextProps> = (props) => {
-  const { children, className, inverse } = props;
+  const { children, className, inverse, ...rest } = props;
 
   console.log("Inverse from BlockquoteText: ");
   console.log({ inverse });
 
   const classes = clsx(className || "");
 
-  return <p className={classes}>{children}</p>;
+  return (
+    <p className={classes} {...rest}>
+      {children}
+    </p>
+  );
 };
 
 BlockquoteText.displayName = "BlockquoteText";

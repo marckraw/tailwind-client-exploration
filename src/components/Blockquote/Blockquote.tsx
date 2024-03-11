@@ -21,6 +21,12 @@ type BlockquoteRootStyles = ExtractSpecificStyles<
   typeof blockquoteStyles,
   ["root", "text", "footer", "citation"]
 >;
+
+type Slots = {
+  BlockquoteText: ReactElement<typeof BlockquoteTextComponent>;
+  BlockquoteCitation: ReactElement<typeof BlockquoteCitationComponent>;
+  BlockquoteFooter: ReactElement<typeof BlockquoteFooterComponent>;
+};
 interface BlockquoteProps
   extends HTMLAttributes<HTMLQuoteElement>,
     WithStyleDefinition<DeepPartial<BlockquoteRootStyles>> {
@@ -30,13 +36,12 @@ interface BlockquoteProps
    */
   inverse?: boolean;
   variant?: "default" | "primary" | "secondary";
+  children: [
+    Slots["BlockquoteCitation"],
+    Slots["BlockquoteText"],
+    Slots["BlockquoteFooter"],
+  ];
 }
-
-type Slots = {
-  BlockquoteText: ReactElement<typeof BlockquoteTextComponent>;
-  BlockquoteCitation: ReactElement<typeof BlockquoteCitationComponent>;
-  BlockquoteFooter: ReactElement<typeof BlockquoteFooterComponent>;
-};
 
 /**
  * The `Blockquote` component is used to display a quote with its citation. It is composed of `BlockquoteText`, `BlockquoteFooter`, and `BlockquoteCitation` subcomponents.
@@ -67,6 +72,7 @@ const Blockquote = forwardRef<HTMLQuoteElement, BlockquoteProps>(
     const DecoratedBlockquoteText = decorateWithProps({
       Component: BlockquoteText,
       props: {
+        id: `_backpack`,
         className: (initValue: string) => clsx(text(), initValue),
         inverse: (initValue: boolean) =>
           typeof initValue !== "undefined" ? initValue : inverse,
