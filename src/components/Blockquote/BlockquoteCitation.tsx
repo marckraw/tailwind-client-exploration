@@ -1,7 +1,7 @@
-"use client";
-import type { FC, HTMLAttributes } from "react";
+"use client"
+import type {FC, HTMLAttributes} from "react";
 import React from "react";
-import { clsx } from "clsx";
+import {clsx} from "clsx";
 
 export interface BlockquoteCitationProps extends HTMLAttributes<unknown> {
   inverse?: boolean;
@@ -12,10 +12,8 @@ export interface BlockquoteCitationProps extends HTMLAttributes<unknown> {
  */
 const BlockquoteCitation: FC<BlockquoteCitationProps> = (props) => {
   const { children, className, inverse } = props;
-  const classes = clsx(className || "");
 
-  console.log("Inverse from BlockquoteCitation: ");
-  console.log({ inverse });
+  const classes = clsx(className || "");
 
   return <cite className={classes}>{children}</cite>;
 };

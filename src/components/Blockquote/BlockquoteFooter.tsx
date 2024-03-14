@@ -1,9 +1,11 @@
-"use client";
-import type { FC, HTMLAttributes } from "react";
+"use client"
+import type {FC, HTMLAttributes} from "react";
 import React from "react";
-import { clsx } from "clsx";
-import { useSlots } from "slot-me-in";
-import { decorateWithProps } from "@/utils/decorateWithProps";
+import {clsx} from "clsx";
+import {blockQuoteFooterAtom} from "@/components/Blockquote/Blockquote";
+import {useAtomValue} from "jotai";
+import {useSlots} from "slot-me-in";
+import {decorateWithProps} from "@/utils/decorateWithProps";
 
 export interface BlockquoteFooterProps extends HTMLAttributes<unknown> {
   inverse?: boolean;
@@ -17,10 +19,10 @@ type Slots = {
 const BlockquoteFooter: FC<BlockquoteFooterProps> = (props) => {
   const { children, className, classNameCitation, inverse } = props;
   const { BlockquoteCitation } = useSlots<Slots>(children);
-  const classes = clsx(className || "");
 
-  console.log("Inverse from BlockquoteFooter: ");
-  console.log({ inverse });
+  const newProps = useAtomValue(blockQuoteFooterAtom)
+
+  const classes = clsx(className || "", newProps?.className, newProps?.inverse ? "inverse" : "");
 
   const DecoratedBlockquoteCitation = decorateWithProps({
     Component: BlockquoteCitation,
@@ -31,7 +33,9 @@ const BlockquoteFooter: FC<BlockquoteFooterProps> = (props) => {
     },
   });
 
-  return <footer className={classes}>{DecoratedBlockquoteCitation}</footer>;
+  return <footer className={classes}>
+    {BlockquoteCitation}
+  </footer>;
 };
 
 BlockquoteFooter.displayName = "BlockquoteFooter";

@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "jotai": {
+      "signature": "12149e7d8624abf91f40db218ec7ff37",
+      "file": true,
+      "replaced": "^2.7.0"
+    }
+  }
+}
