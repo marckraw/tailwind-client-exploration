@@ -1,9 +1,7 @@
 "use client"
-import type {FC, HTMLAttributes} from "react";
-import React from "react";
+import React, {FC, HTMLAttributes, useContext} from "react";
 import {clsx} from "clsx";
-import {useAtomValue} from "jotai/react";
-import {blockQuoteTextAtom} from "@/components/Blockquote/Blockquote";
+import {BlockquoteContext} from "@/components/Blockquote/BlockquoteContext";
 
 export interface BlockquoteTextProps extends HTMLAttributes<unknown> {
   inverse?: boolean;
@@ -11,11 +9,12 @@ export interface BlockquoteTextProps extends HTMLAttributes<unknown> {
 
 const BlockquoteText: FC<BlockquoteTextProps> = (props) => {
   const { children, className, inverse, ...rest } = props;
+  // @ts-ignore
+  const {text} = useContext(BlockquoteContext)
 
-  const newProps = useAtomValue(blockQuoteTextAtom);
-
-  const classes = clsx(className || "", newProps?.className, newProps?.inverse ? "inverse" : "");
-  console.log('loaded text')
+  // @ts-ignore
+  const classes = clsx(className || "", text?.className, text?.inverse ? "inverse" : "");
+  console.log('loaded text');
   return (
     <p className={classes} {...rest}>
       {children}

@@ -1,7 +1,7 @@
 "use client"
-import type {FC, HTMLAttributes} from "react";
-import React from "react";
+import React, {FC, HTMLAttributes, useContext} from "react";
 import {clsx} from "clsx";
+import {BlockquoteContext} from "@/components/Blockquote/BlockquoteContext";
 
 export interface BlockquoteCitationProps extends HTMLAttributes<unknown> {
   inverse?: boolean;
@@ -12,8 +12,11 @@ export interface BlockquoteCitationProps extends HTMLAttributes<unknown> {
  */
 const BlockquoteCitation: FC<BlockquoteCitationProps> = (props) => {
   const { children, className, inverse } = props;
+  // @ts-ignore
+  const {citation} = useContext(BlockquoteContext)
 
-  const classes = clsx(className || "");
+  // @ts-ignore
+  const classes = clsx(className || "", citation?.className, citation?.inverse ? "inverse" : "");
 
   return <cite className={classes}>{children}</cite>;
 };
